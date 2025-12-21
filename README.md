@@ -4,7 +4,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://github.com/COOKIE-POLICE/gommand/blob/main/LICENSE)
 
 <br />
 <div align="center">
@@ -100,7 +100,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -122,8 +122,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [stars-url]: https://github.com/COOKIE-POLICE/gommand/stargazers
 [issues-shield]: https://img.shields.io/github/issues/COOKIE-POLICE/gommand.svg?style=for-the-badge
 [issues-url]: https://github.com/COOKIE-POLICE/gommand/issues
-[license-shield]: https://img.shields.io/github/license/COOKIE-POLICE/gommand.svg?style=for-the-badge
-[license-url]: https://github.com/COOKIE-POLICE/gommand/blob/master/LICENSE
 [Godot-badge]: https://img.shields.io/badge/Godot-4.x-478CBF?style=for-the-badge&logo=godotengine&logoColor=white
 [Godot-url]: https://godotengine.org/
 [GDScript-badge]: https://img.shields.io/badge/GDScript-355570?style=for-the-badge&logo=godotengine&logoColor=white
