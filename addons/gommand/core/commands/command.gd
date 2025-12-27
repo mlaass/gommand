@@ -36,6 +36,10 @@ func initialize() -> void:
 func execute(delta_time: float) -> void:
 	pass
 
+# Called during physics processing while scheduled. Delta is physics timestep.
+func physics_execute(delta_time: float) -> void:
+	pass
+
 # Return true when the command should end.
 func is_finished() -> bool:
 	return true

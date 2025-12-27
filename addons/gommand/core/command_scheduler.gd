@@ -7,9 +7,13 @@ var _action_triggers: Array = []
 
 func _ready() -> void:
 	set_process(true)
+	set_physics_process(true)
 
 func _process(delta_time: float) -> void:
 	run(delta_time)
+
+func _physics_process(delta_time: float) -> void:
+	physics_run(delta_time)
 
 func run(delta_time: float) -> void:
 	_update_action_triggers()
@@ -38,6 +42,15 @@ func run(delta_time: float) -> void:
 		if _is_subsystem_idle(subsystem) and subsystem.default_command != null:
 			if not _is_scheduled(subsystem.default_command):
 				schedule(subsystem.default_command)
+
+func physics_run(delta_time: float) -> void:
+	for subsystem in _subsystems:
+		if is_instance_valid(subsystem):
+			subsystem.physics_periodic(delta_time)
+
+	for command in _active_commands:
+		if is_instance_valid(command) and command._has_initialized():
+			command.physics_execute(delta_time)
 
 func schedule(command: Command) -> bool:
 	if command == null:

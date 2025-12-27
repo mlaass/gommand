@@ -37,6 +37,14 @@ func periodic(delta_time: float) -> void:
 	elif _is_turning:
 		_update_turning(delta_time)
 
+func physics_periodic(delta_time: float) -> void:
+	super.physics_periodic(delta_time)
+	
+	# Call move_and_slide during physics process
+	var parent_node = get_parent()
+	if parent_node is CharacterBody3D and (_is_navigating or _is_turning):
+		parent_node.move_and_slide()
+
 func _update_navigation(delta_time: float) -> void:
 	var parent_node = get_parent()
 	if navigation_agent == null or parent_node == null:
@@ -76,8 +84,6 @@ func _move_character_body(character_body: CharacterBody3D, direction: Vector3, d
 		if direction.length() > 0.01:
 			var target_transform = character_body.global_transform.looking_at(character_body.global_position + direction, Vector3.UP)
 			character_body.global_transform = character_body.global_transform.interpolate_with(target_transform, rotation_speed * delta_time)
-		
-		character_body.move_and_slide()
 
 func _move_rigid_body(rigid_body: RigidBody3D, direction: Vector3, delta_time: float) -> void:
 	var desired_velocity = direction * movement_speed
@@ -115,7 +121,6 @@ func _on_velocity_computed(safe_velocity: Vector3) -> void:
 	var parent_node = get_parent()
 	if parent_node is CharacterBody3D:
 		parent_node.velocity = safe_velocity
-		parent_node.move_and_slide()
 
 func go_to_position(target_position) -> void:
 	if navigation_agent == null:

@@ -14,6 +14,9 @@ func _exit_tree() -> void:
 func periodic(delta_time: float) -> void:
 	pass
 
+func physics_periodic(delta_time: float) -> void:
+	pass
+
 func set_default_command(command: Command) -> void:
 	if command == null:
 		default_command = null
