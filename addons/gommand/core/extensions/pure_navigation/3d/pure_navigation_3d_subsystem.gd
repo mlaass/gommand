@@ -23,7 +23,7 @@ func _setup_navigation_agent() -> void:
 	# If no navigation agent was provided, create a default one
 	if navigation_agent == null:
 		navigation_agent = NavigationAgent3D.new()
-		get_parent().add_child(navigation_agent)
+		get_parent().add_child.call_deferred(navigation_agent)
 	
 	# Connect velocity signal if using avoidance
 	if not navigation_agent.velocity_computed.is_connected(_on_velocity_computed):
@@ -38,7 +38,11 @@ func periodic(delta_time: float) -> void:
 		_update_turning(delta_time)
 
 func _update_navigation(delta_time: float) -> void:
-	if navigation_agent == null or get_parent() == null:
+	var parent_node = get_parent()
+	if navigation_agent == null or parent_node == null:
+		return
+	
+	if not is_inside_tree() or navigation_agent.get_parent() == null:
 		return
 	
 	if navigation_agent.is_navigation_finished():
@@ -47,7 +51,6 @@ func _update_navigation(delta_time: float) -> void:
 		return
 	
 	var next_path_position: Vector3 = navigation_agent.get_next_path_position()
-	var parent_node = get_parent()
 	
 	# Calculate direction to next waypoint
 	var direction = (next_path_position - parent_node.global_position).normalized()
@@ -61,6 +64,9 @@ func _update_navigation(delta_time: float) -> void:
 		_move_node3d(parent_node, direction, delta_time)
 
 func _move_character_body(character_body: CharacterBody3D, direction: Vector3, delta_time: float) -> void:
+	if not is_instance_valid(character_body):
+		return
+	
 	if navigation_agent.avoidance_enabled:
 		navigation_agent.velocity = direction * movement_speed
 	else:
