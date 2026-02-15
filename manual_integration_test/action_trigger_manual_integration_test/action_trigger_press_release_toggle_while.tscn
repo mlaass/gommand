@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dka0h7ibh8nfh"]
+
+[ext_resource type="Script" uid="uid://bbksp1v3otia0" path="res://manual_integration_test/action_trigger_manual_integration_test/action_trigger_press_release_toggle_while.gd" id="1"]
+
+[node name="ActionTriggerPressReleaseToggleWhile" type="Node3D" unique_id=1452391012]
+script = ExtResource("1")

@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c3qjoxty1geid"]
+[gd_scene format=3 uid="uid://c3qjoxty1geid"]
 
 [ext_resource type="Script" uid="uid://daxg10gif0nnf" path="res://manual_integration_test/decorator_manual_integration_test/sequential_repeat.gd" id="1"]
 
-[node name="SequentialRepeat" type="Node3D"]
+[node name="SequentialRepeat" type="Node3D" unique_id=1593955523]
 script = ExtResource("1")

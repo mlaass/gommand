@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://da1p4p1wjvlx5"]
 
-[ext_resource path="res://manual_integration_test/decorator_manual_integration_test/conditional_repeat.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://d04bekhd7mlfu" path="res://manual_integration_test/decorator_manual_integration_test/conditional_repeat.gd" id="1"]
 
-[node name="ConditionalRepeat" type="Node3D"]
-script = ExtResource( 1 )
+[node name="ConditionalRepeat" type="Node3D" unique_id=185371532]
+script = ExtResource("1")

@@ -8,21 +8,25 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Gommand"
 config/description="Gommand is a command-based framework for Godot."
 config/version="1.0.0"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://cjpxk6ki6i0y5"
 
 [autoload]
 
-CommandScheduler="*res://addons/gommand/core/command_scheduler.gd"
+CommandScheduler="*uid://uau67vbd43ry"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/gommand/plugin.cfg")
+enabled=PackedStringArray("res://addons/gommand/plugin.cfg")
 
 [gdunit4]
 

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://kngwuunk4wh8"]
+
+[ext_resource type="Script" uid="uid://cphbicwvfj6r6" path="res://manual_integration_test/action_trigger_manual_integration_test/action_trigger_clear_bindings.gd" id="1"]
+
+[node name="ActionTriggerClearBindings" type="Node3D" unique_id=741126551]
+script = ExtResource("1")

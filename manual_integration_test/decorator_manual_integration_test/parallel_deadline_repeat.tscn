@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://coxe70iivf3lh"]
+
+[ext_resource type="Script" path="res://manual_integration_test/decorator_manual_integration_test/parallel_deadline_repeat.gd" id="1"]
+
+[node name="ParallelDeadlineRepeat" type="Node3D" unique_id=372845091]
+script = ExtResource("1")
