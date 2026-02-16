@@ -1,0 +1,50 @@
+site_name: Gommand
+site_url: https://gommand.dev
+
+repo_url: https://github.com/COOKIE-POLICE/gommand
+repo_name: COOKIE-POLICE/gommand
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+  palette:
+    - scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Dark mode
+    - scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Light mode
+
+nav:
+  - Home: index.md
+  - Core:
+      - Subsystem: subsystem.md
+      - ActionTrigger: action_trigger.md
+      - CommandScheduler: command_scheduler.md
+  - Commands:
+      - Command: command.md
+      - ConditionalCommand: conditional_command.md
+      - DeferredCommand: deferred_command.md
+      - FunctionalCommand: functional_command.md
+      - InstantCommand: instant_command.md
+      - ParallelCommandGroup: parallel_command_group.md
+      - ParallelDeadlineGroup: parallel_deadline_group.md
+      - ParallelRaceGroup: parallel_race_group.md
+      - PerpetualCommand: perpetual_command.md
+      - PrintCommand: print_command.md
+      - RepeatCommand: repeat_command.md
+      - RetryCommand: retry_command.md
+      - RunCommand: run_command.md
+      - ScheduleCommand: schedule_command.md
+      - SelectCommand: select_command.md
+      - SequentialCommandGroup: sequential_command_group.md
+      - StartEndCommand: start_end_command.md
+      - UninterruptibleCommand: uninterruptible_command.md
+      - WaitCommand: wait_command.md
+      - WaitUntilCommand: wait_until_command.md

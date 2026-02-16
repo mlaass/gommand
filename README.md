@@ -46,17 +46,27 @@
 
 ## About The Project
 
-Gommand is a command-based framework for Godot 4 inspired by WPILib's command-based programming system. Gommand allows you to follow a declarative programming style. The emphasis is on what your game or application should do rather than how to do it. This minimizes the step-by-step logic normally required to write out a certain action.
+**Gommand** is a command framework for Godot 4 that keeps your code clean.
 
-### Why Commands Over States?
+Instead of managing state machines or tangled control flow, you write small focused commands and compose them into sequences, parallel groups, or conditional flows. The scheduler handles execution order and prevents conflicts automatically.
 
-- **Actions, not states**: A player doesn’t exist in a “run state” or “walk state”; a player runs, a player walks. Commands reflect behavior directly, matching how we naturally describe actions.
+**What you get:**
+- Readable logic: commands have clear names and a single purpose, so the code says exactly what it does
+- Declarative style: all your logic lives in one place, no hunting across files to understand what happens
+- Composable flows: chain sequences, run things in parallel, add conditions and repeats
+- Conflict prevention: subsystem requirements stop commands from clashing
+- Input wiring: bind player actions to commands with `ActionTrigger`, no boilerplate
 
-- **No transition hell**: State machines require explicit transitions between every state pair. You need sprint→walk, walk→idle, idle→crouch, crouch→jump transitions. Adding reload means defining reload→sprint, reload→walk, reload→idle, reload→crouch, and the reverse transitions back. With N states, you potentially need N² transitions. Commands have zero transitions because scheduling a command doesn't depend on what other commands ran before. Press reload button, schedule reload command. Gommand provides the ActionTrigger class that handles scheduling commands when buttons are pressed.
+**A simple flow looks like this:**
+```gdscript
+SequentialCommandGroup.new([
+    DashCommand.new(direction),
+    WaitCommand.new(0.2),
+    AttackCommand.new(target),
+])
+```
 
-- **Automatic conflict resolution**: Gommand is inherently aware of potential conflicts between scheduled commands, the CommandScheduler handles all conflicts automatically based on subsystem requirements.
-
-- **Declarative**: Similar to functional programming, where map, filter, and reduce describe what to do, not how to iterate, Gommand lets you declare behavior with commands like ConditionalCommand, RepeatCommand, and RunCommand, making logic readable and maintainable.
+> "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." — Martin Fowler
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
