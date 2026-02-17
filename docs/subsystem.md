@@ -2,15 +2,15 @@
 
 ## Reference description
 
-`Subsystem` is a Node that groups related behavior and can expose a default command.
+`Subsystem` is a `RefCounted` object that groups related behavior and can expose a default command.
 
 ## Fields
 
 | Field | Description | Example |
 | :---- | :---- | :---- |
-| `default_command` | Command automatically scheduled when subsystem is idle. | `movement.default_command = idle_move` |
-| `_enter_tree()` | Registers subsystem in scheduler. | Auto-called by Godot |
-| `_exit_tree()` | Unregisters subsystem in scheduler. | Auto-called by Godot |
+| `default_command` | Command automatically scheduled when subsystem is idle. | `movement.set_default_command(idle_move)` |
+| `_init()` | Registers subsystem in scheduler. | Auto-called on construction |
+| `_notification(NOTIFICATION_PREDELETE)` | Unregisters subsystem in scheduler. | Auto-called before free |
 | `periodic(delta_time)` | Per-frame subsystem update hook (_process). | Updating coin counter |
 | `physics_periodic(delta_time)` | Physics-step subsystem update hook (_physics_process). | Update kinematics |
 
@@ -26,7 +26,8 @@
 class_name DriveSubsystem
 extends Subsystem
 
-func _ready() -> void:
+
+func _init() -> void:
 	var idle_drive := RunCommand.new(func(dt):
 		# keep tiny stabilization logic here
 		pass,

@@ -9,8 +9,8 @@
 | Field | Description | Example |
 | :---- | :---- | :---- |
 | `_active_commands` | Currently running commands. | tracked automatically |
-| `_subsystem_usage` | Maps subsystem to occupying command. | one command per subsystem |
-| `_subsystems` | Registered subsystems. | from `Subsystem._enter_tree()` |
+| `_subsystem_usage` | Maps subsystem instance id to occupying command. | one command per subsystem |
+| `_subsystems` | Registered subsystem instance ids. | from `Subsystem._init()` |
 | `_action_triggers` | Registered action triggers. | from `ActionTrigger.build()` |
 
 ## Methods
@@ -21,8 +21,8 @@
 | `cancel(command)` | Cancels one command if active. | Required: `Command` | `CommandScheduler.cancel(aim_cmd)` |
 | `cancel_all()` | Cancels all active commands. | None | `CommandScheduler.cancel_all()` |
 | `is_scheduled(command)` | Returns whether command is currently active. | Required: `Command` | `if CommandScheduler.is_scheduled(cmd):` |
-| `register_subsystem(subsystem)` | Registers a subsystem instance. | Required: `Subsystem` | auto from `_enter_tree()` |
-| `unregister_subsystem(subsystem)` | Unregisters a subsystem instance. | Required: `Subsystem` | auto from `_exit_tree()` |
+| `register_subsystem(subsystem)` | Registers a subsystem instance. | Required: `Subsystem` | auto from `_init()` |
+| `unregister_subsystem(subsystem)` | Unregisters a subsystem instance. | Required: `Subsystem` | auto from `_notification(NOTIFICATION_PREDELETE)` |
 | `register_action_trigger(action_trigger)` | Registers an action trigger. | Required: `ActionTrigger` | auto in trigger init |
 | `unregister_action_trigger(action_trigger)` | Unregisters an action trigger. | Required: `ActionTrigger` | manual cleanup |
 

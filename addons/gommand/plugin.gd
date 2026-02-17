@@ -5,7 +5,7 @@ func _initialize_plugin() -> void:
 	add_autoload_singleton("CommandScheduler", "res://addons/gommand/core/command_scheduler.gd")
 	add_custom_type(
 		"Subsystem",
-		"Node",
+		"RefCounted",
 		preload("res://addons/gommand/core/subsystem.gd"),
 		preload("res://addons/gommand/assets/editor_icons/gear.svg")
 	)

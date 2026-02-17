@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bx2u6st2wk1sq"]
+
+[ext_resource type="Script" uid="uid://dqhp2nknx2eyh" path="res://manual_integration_test/subsystem_manual_integration_test/subsystem_conflict_then_resume_default.gd" id="1"]
+
+[node name="SubsystemConflictThenResumeDefault" type="Node3D" unique_id=845806540]
+script = ExtResource("1")

@@ -1,17 +1,19 @@
 @icon("../assets/editor_icons/gear.svg")
 class_name Subsystem
-extends Node
+extends RefCounted
 
 const FunctionalTools = preload("../scripts/functional_tools.gd")
 var default_command: Command = null
 
 
-func _enter_tree() -> void:
+func _init() -> void:
 	CommandScheduler.register_subsystem(self)
 
 
-func _exit_tree() -> void:
-	CommandScheduler.unregister_subsystem(self)
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		default_command = null
+		CommandScheduler.unregister_subsystem(self)
 
 
 func periodic(delta_time: float) -> void:

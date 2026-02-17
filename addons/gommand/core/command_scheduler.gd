@@ -25,9 +25,10 @@ func _physics_process(delta_time: float) -> void:
 
 func run(delta_time: float) -> void:
 	_update_action_triggers()
+	var registered_subsystems: Array = _get_registered_subsystems()
 
 	FunctionalTools.for_each(
-		FunctionalTools.filter(_subsystems, func(subsystem): return is_instance_valid(subsystem)),
+		registered_subsystems,
 		func(subsystem): subsystem.periodic(delta_time)
 	)
 
@@ -49,21 +50,22 @@ func run(delta_time: float) -> void:
 
 	FunctionalTools.for_each(
 		FunctionalTools.filter(
-			_subsystems,
+			registered_subsystems,
 			func(subsystem):
+				var default_command: Command = subsystem.default_command
 				return (
-					is_instance_valid(subsystem)
-					and _is_subsystem_idle(subsystem)
-					and subsystem.default_command != null
-					and not _is_scheduled(subsystem.default_command)
+					_is_subsystem_idle(subsystem)
+					and default_command != null
+					and not _is_scheduled(default_command)
 				)),
 		func(subsystem): schedule(subsystem.default_command)
 	)
 
 
 func physics_run(delta_time: float) -> void:
+	var registered_subsystems: Array = _get_registered_subsystems()
 	FunctionalTools.for_each(
-		FunctionalTools.filter(_subsystems, func(subsystem): return is_instance_valid(subsystem)),
+		registered_subsystems,
 		func(subsystem): subsystem.physics_periodic(delta_time)
 	)
 
@@ -84,12 +86,16 @@ func schedule(command: Command) -> bool:
 
 func _schedule_internal(command: Command) -> bool:
 	var requirements := command.get_requirements()
+	var requirement_ids: Array = FunctionalTools.map(
+		FunctionalTools.filter(requirements, func(subsystem): return is_instance_valid(subsystem)),
+		func(subsystem): return subsystem.get_instance_id()
+	)
 	var conflicting_commands: Array = FunctionalTools.filter(
 		FunctionalTools.map(
 			FunctionalTools.filter(
-				requirements, func(subsystem): return _subsystem_usage.has(subsystem)
+				requirement_ids, func(subsystem_id): return _subsystem_usage.has(subsystem_id)
 			),
-			func(subsystem): return _subsystem_usage[subsystem]
+			func(subsystem_id): return _subsystem_usage[subsystem_id]
 		),
 		func(occupying_command): return occupying_command != command
 	)
@@ -111,7 +117,9 @@ func _schedule_internal(command: Command) -> bool:
 	_command_states[command] = CommandState.new(command.is_interruptible())
 	_command_mark_scheduled(command)
 	_active_commands.append(command)
-	FunctionalTools.for_each(requirements, func(subsystem): _subsystem_usage[subsystem] = command)
+	FunctionalTools.for_each(
+		requirement_ids, func(subsystem_id): _subsystem_usage[subsystem_id] = command
+	)
 	return true
 
 
@@ -137,15 +145,21 @@ func is_scheduled(command: Command) -> bool:
 
 
 func register_subsystem(subsystem: Subsystem) -> void:
-	if not _subsystems.has(subsystem):
-		_subsystems.append(subsystem)
+	if not is_instance_valid(subsystem):
+		return
+	var subsystem_id := subsystem.get_instance_id()
+	if not _subsystems.has(subsystem_id):
+		_subsystems.append(subsystem_id)
 
 
 func unregister_subsystem(subsystem: Subsystem) -> void:
-	_subsystems.erase(subsystem)
-	if _subsystem_usage.has(subsystem):
-		var command_in_use: Command = _subsystem_usage[subsystem]
-		_subsystem_usage.erase(subsystem)
+	if not is_instance_valid(subsystem):
+		return
+	var subsystem_id := subsystem.get_instance_id()
+	_subsystems.erase(subsystem_id)
+	if _subsystem_usage.has(subsystem_id):
+		var command_in_use: Command = _subsystem_usage[subsystem_id]
+		_subsystem_usage.erase(subsystem_id)
 		if is_instance_valid(command_in_use) and _active_commands.has(command_in_use):
 			pass
 
@@ -171,16 +185,40 @@ func _unschedule_internal(command: Command) -> bool:
 	FunctionalTools.for_each(
 		FunctionalTools.filter(
 			command.get_requirements(),
-			func(subsystem): return _subsystem_usage.get(subsystem) == command
+			func(subsystem): return (
+					is_instance_valid(subsystem)
+					and _subsystem_usage.get(subsystem.get_instance_id()) == command
+			)
 		),
-		func(subsystem): _subsystem_usage.erase(subsystem)
+		func(subsystem): _subsystem_usage.erase(subsystem.get_instance_id())
 	)
 	command._on_unscheduled()
 	return true
 
 
 func _is_subsystem_idle(subsystem: Subsystem) -> bool:
-	return not _subsystem_usage.has(subsystem)
+	return is_instance_valid(subsystem) and not _subsystem_usage.has(subsystem.get_instance_id())
+
+
+func _get_registered_subsystems() -> Array:
+	var live_subsystems: Array = []
+	var stale_subsystem_ids: Array = []
+	FunctionalTools.for_each(
+		_subsystems,
+		func(subsystem_id):
+			var subsystem = instance_from_id(subsystem_id)
+			if subsystem != null and is_instance_valid(subsystem):
+				live_subsystems.append(subsystem)
+			else:
+				stale_subsystem_ids.append(subsystem_id)
+	)
+	FunctionalTools.for_each(
+		stale_subsystem_ids,
+		func(stale_subsystem_id):
+			_subsystems.erase(stale_subsystem_id)
+			_subsystem_usage.erase(stale_subsystem_id)
+	)
+	return live_subsystems
 
 
 func _is_scheduled(command: Command) -> bool:

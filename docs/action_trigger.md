@@ -4,6 +4,7 @@
 
 `ActionTrigger` binds a Godot input action to command scheduling on press, release, hold, and toggle.
 
+
 ## Fields
 
 | Field | Description | Example |

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d014olhsg118i"]
+
+[ext_resource type="Script" uid="uid://blofgs786cb67" path="res://manual_integration_test/subsystem_manual_integration_test/subsystem_clear_default_before_release.gd" id="1"]
+
+[node name="SubsystemClearDefaultBeforeRelease" type="Node3D" unique_id=1937408186]
+script = ExtResource("1")

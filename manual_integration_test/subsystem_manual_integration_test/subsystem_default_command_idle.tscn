@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://q1ynlx4dltlm"]
+
+[ext_resource type="Script" uid="uid://dedx2pmmbn7n0" path="res://manual_integration_test/subsystem_manual_integration_test/subsystem_default_command_idle.gd" id="1"]
+
+[node name="SubsystemDefaultCommandIdle" type="Node3D" unique_id=738199464]
+script = ExtResource("1")

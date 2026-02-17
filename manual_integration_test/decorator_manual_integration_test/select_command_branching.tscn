@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://41sdm37e2ie5"]
 
-[ext_resource type="Script" path="res://manual_integration_test/decorator_manual_integration_test/select_command_branching.gd" id="1"]
+[ext_resource type="Script" uid="uid://5fucictk68o2" path="res://manual_integration_test/decorator_manual_integration_test/select_command_branching.gd" id="1"]
 
 [node name="SelectCommandBranching" type="Node3D" unique_id=856204173]
 script = ExtResource("1")
