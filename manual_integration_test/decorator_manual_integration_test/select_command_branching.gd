@@ -16,13 +16,13 @@ func _ready() -> void:
 
 
 func _schedule_select_run() -> void:
-	var selector := Callable(self, "_select_key")
-	var command_map: Dictionary = {}
-	command_map["fast"] = PrintCommand.new("Select: FAST path")
-	command_map["slow"] = SequentialCommandGroup.new(
+	var command_map := {
+		"fast": PrintCommand.new("Select: FAST path"),
+		"slow": SequentialCommandGroup.new(
 		[WaitCommand.new(0.3), PrintCommand.new("Select: SLOW path")]
-	)
-	CommandScheduler.schedule(SelectCommand.new(selector, command_map))
+		)
+	}
+	CommandScheduler.schedule(SelectCommand.new(Callable(self, "_select_key"), command_map))
 
 
 func _select_key() -> String:

@@ -6,7 +6,6 @@ func _ready() -> void:
 	print("EXPECT: ParallelDeadline repeat test")
 	print("Worker should print tick ~every 0.2s, then stop around 1.2s when deadline finishes.")
 
-	var deadline := WaitCommand.new(1.2)
 	var worker := RepeatCommand.new(
 		SequentialCommandGroup.new(
 			[
@@ -16,5 +15,4 @@ func _ready() -> void:
 		),
 		0
 	)
-	var group := ParallelDeadlineGroup.new(deadline, [worker])
-	CommandScheduler.schedule(group)
+	CommandScheduler.schedule(ParallelDeadlineGroup.new(WaitCommand.new(1.2), [worker]))

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://djnmvpkv3x6o8"]
+
+[ext_resource type="Script" uid="uid://ltk2c4nw0iuq" path="res://manual_integration_test/decorator_manual_integration_test/super_nested_subsystem_commands.gd" id="1"]
+
+[node name="SuperNestedSubsystemCommands" type="Node3D" unique_id=1335096669]
+script = ExtResource("1")
