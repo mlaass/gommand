@@ -165,12 +165,28 @@ func unregister_subsystem(subsystem: Subsystem) -> void:
 
 
 func register_action_trigger(action_trigger) -> void:
-	if not _action_triggers.has(action_trigger):
-		_action_triggers.append(action_trigger)
+	if action_trigger == null:
+		return
+	var already_registered := FunctionalTools.any(
+		_action_triggers,
+		func(action_trigger_ref):
+			var existing_trigger = action_trigger_ref.get_ref() if action_trigger_ref != null else null
+			return existing_trigger == action_trigger
+	)
+	if not already_registered:
+		_action_triggers.append(weakref(action_trigger))
 
 
 func unregister_action_trigger(action_trigger) -> void:
-	_action_triggers.erase(action_trigger)
+	var stale_trigger_refs: Array = []
+	FunctionalTools.for_each(
+		_action_triggers,
+		func(action_trigger_ref):
+			var existing_trigger = action_trigger_ref.get_ref() if action_trigger_ref != null else null
+			if existing_trigger == null or existing_trigger == action_trigger:
+				stale_trigger_refs.append(action_trigger_ref)
+	)
+	FunctionalTools.for_each(stale_trigger_refs, func(action_trigger_ref): _action_triggers.erase(action_trigger_ref))
 
 
 func _unschedule(command: Command) -> void:
@@ -236,9 +252,16 @@ func _is_interruptible(command: Command) -> bool:
 
 
 func _update_action_triggers() -> void:
+	var live_action_triggers: Array = []
+	var stale_trigger_refs: Array = []
 	FunctionalTools.for_each(
-		FunctionalTools.filter(
-			_action_triggers, func(action_trigger): return action_trigger != null
-		),
-		func(action_trigger): action_trigger._update()
+		_action_triggers,
+		func(action_trigger_ref):
+			var action_trigger = action_trigger_ref.get_ref() if action_trigger_ref != null else null
+			if action_trigger != null:
+				live_action_triggers.append(action_trigger)
+			else:
+				stale_trigger_refs.append(action_trigger_ref)
 	)
+	FunctionalTools.for_each(stale_trigger_refs, func(action_trigger_ref): _action_triggers.erase(action_trigger_ref))
+	FunctionalTools.for_each(live_action_triggers, func(action_trigger): action_trigger._update())

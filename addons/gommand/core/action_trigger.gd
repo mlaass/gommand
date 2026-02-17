@@ -78,6 +78,12 @@ func clear_all_bindings() -> void:
 	toggle_states.clear()
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		clear_all_bindings()
+		CommandScheduler.unregister_action_trigger(self)
+
+
 func _update() -> void:
 	var currently_pressed := Input.is_action_pressed(action_name)
 	var rising_edge := currently_pressed and not previously_pressed
